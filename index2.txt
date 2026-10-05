@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Los Samuelitos | Ministerio de Restauración</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome for Urban / Christian Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Permanent Marker & Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Permanent+Marker&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandOrange: '#FF4500',
+            brandRed: '#E82B1E',
+            brandLightOrange: '#FF6B35',
+            darkGray: '#121212',
+            mediumGray: '#2A2A2A',
+            lightGray: '#F4F4F6'
+          },
+          fontFamily: {
+            urban: ['"Permanent Marker"', 'cursive'],
+            sans: ['Montserrat', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #FAFAFA;
+      color: #1a1a1a;
+      overflow-x: hidden;
+    }
+
+    /* Floating Particles / Fire animation background */
+    .bg-grid-pattern {
+      background-image: radial-gradient(rgba(232, 43, 30, 0.12) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+
+    /* Scroll Reveal Base Class */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px) scale(0.96);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-left.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(50px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-right.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Fire Animation Effects */
+    @keyframes flameGlow {
+      0%, 100% {
+        filter: drop-shadow(0 0 15px rgba(232, 43, 30, 0.6));
+        transform: scale(1);
+      }
+      50% {
+        filter: drop-shadow(0 0 25px rgba(255, 107, 53, 0.9));
+        transform: scale(1.05);
+      }
+    }
+
+    .flame-effect {
+      animation: flameGlow 2.5s infinite ease-in-out;
+    }
+
+    /* Urban Paint / Scratch effect */
+    .urban-border {
+      border: 3px solid #121212;
+      box-shadow: 6px 6px 0px #E82B1E;
+    }
+
+    .urban-badge {
+      background: #E82B1E;
+      color: white;
+      transform: rotate(-2deg);
+    }
+
+    /* Floating particles styling */
+    .particle {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.6;
+      animation: floatUp 8s infinite linear;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      20% { opacity: 0.7; }
+      80% { opacity: 0.7; }
+      100% {
+        transform: translateY(-10vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900 selection:bg-brandRed selection:text-white">
+
+  <!-- Background Particles Container -->
+  <div id="particles-container" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 py-3 px-6 transition-all duration-300">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <a href="#" class="flex items-center gap-2 group">
+        <span class="font-urban text-2xl text-brandRed tracking-wider group-hover:scale-105 transition-transform">LOS SAMUELITOS</span>
+      </a>
+      <div class="hidden md:flex gap-8 font-semibold text-sm uppercase tracking-wider text-gray-700">
+        <a href="#inicio" class="hover:text-brandRed transition-colors">Inicio</a>
+        <a href="#quienes-somos" class="hover:text-brandRed transition-colors">¿Quiénes Somos?</a>
+        <a href="#porque-samuelitos" class="hover:text-brandRed transition-colors">¿Por Qué El Nombre?</a>
+      </div>
+      <a href="https://www.instagram.com/samuelitos.mdr" target="_blank" rel="noopener noreferrer" class="bg-brandRed hover:bg-brandOrange text-white font-bold py-2 px-5 rounded-full shadow-md transition-all hover:shadow-lg flex items-center gap-2">
+        <i class="fab fa-instagram text-lg"></i>
+        <span>@samuelitos.mdr</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION CON LOGO PRINCIPAL -->
+  <section id="inicio" class="min-h-screen relative flex flex-col justify-center items-center text-center pt-24 pb-12 px-4 bg-grid-pattern overflow-hidden">
+    <!-- Glow Effect Behind Logo -->
+    <div class="absolute w-96 h-96 bg-brandRed/15 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
+
+      <!-- Badge Urbano -->
+      <div class="reveal urban-badge px-4 py-1 font-bold text-sm uppercase tracking-widest rounded mb-6 shadow-md">
+        Jóvenes del Ministerio de Restauración
+      </div>
+
+      <!-- LOGO PRINCIPAL SIN CUADRADOS NI CONTORNOS -->
+      <div class="reveal mb-8 max-w-lg w-full transition-transform hover:scale-105 duration-300">
+        <img 
+          src="file:///C:/Users/celej/Downloads/IMG_3369.PNG" 
+          onerror="this.onerror=null; this.src='IMG_3369.PNG';" 
+          alt="Logo Los Samuelitos" 
+          class="w-full h-auto object-contain mx-auto flame-effect drop-shadow-xl"
+        />
+      </div>
+
+      <h1 class="reveal font-urban text-4xl md:text-6xl text-gray-900 mb-4 tracking-wide">
+        UNA GENERACIÓN QUE <span class="text-brandRed underline decoration-brandOrange">ESCUCHA Y RESPONDE</span>
+      </h1>
+
+      <p class="reveal text-lg md:text-xl text-gray-600 max-w-2xl font-medium mb-8">
+        No queremos alejarnos de su presencia. Crecimos en la casa de Dios y decidimos quedarnos.
+      </p>
+
+      <div class="reveal flex flex-wrap justify-center gap-4">
+        <a href="#quienes-somos" class="bg-gray-900 hover:bg-brandRed text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+          Conócenos Más
+        </a>
+        <a href="#porque-samuelitos" class="border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white font-bold py-3 px-8 rounded-xl transition-all duration-300">
+          ¿Por qué "Los Samuelitos"?
+        </a>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="mt-16 animate-bounce text-brandRed">
+        <i class="fas fa-chevron-down text-2xl"></i>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECCIÓN: ¿QUIÉNES SOMOS? -->
+  <section id="quienes-somos" class="py-20 px-6 bg-white relative overflow-hidden border-y border-gray-200">
+    <div class="max-w-5xl mx-auto relative z-10">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+        
+        <!-- Columna de Texto -->
+        <div class="md:col-span-7 reveal-left">
+          <div class="inline-flex items-center gap-2 text-brandRed font-bold uppercase tracking-wider text-sm mb-2">
+            <i class="fas fa-fire flame-effect"></i>
+            <span>Nuestra Identidad</span>
+          </div>
+          <h2 class="font-urban text-4xl md:text-5xl text-gray-900 mb-6">¿QUIÉNES SOMOS?</h2>
+          
+          <div class="text-gray-700 text-lg leading-relaxed space-y-4">
+            <p class="font-semibold text-xl text-gray-900 border-l-4 border-brandRed pl-4">
+              Somos un grupo de jóvenes de la iglesia de <span class="text-brandRed">Ministerio de Restauración</span>.
+            </p>
+            <p>
+              Somos una comunidad unida por el amor a Jesús, apasionados por el servicio y con el deseo constante de impactar a nuestra generación. 
+            </p>
+          </div>
+
+          <!-- Íconos de estilo de vida / cultura urbana -->
+          <div class="grid grid-cols-3 gap-4 mt-8">
+            <div class="p-4 bg-gray-100 rounded-xl text-center urban-border hover:bg-brandRed hover:text-white transition-all group">
+              <i class="fas fa-cross text-2xl text-brandRed group-hover:text-white mb-2 block"></i>
+              <span class="font-bold text-xs uppercase tracking-wide">Fe</span>
+            </div>
+            <div class="p-4 bg-gray-100 rounded-xl text-center urban-border hover:bg-brandRed hover:text-white transition-all group">
+              <i class="fas fa-fire text-2xl text-brandRed group-hover:text-white mb-2 block"></i>
+              <span class="font-bold text-xs uppercase tracking-wide">Fuego & Pasión</span>
+            </div>
+            <div class="p-4 bg-gray-100 rounded-xl text-center urban-border hover:bg-brandRed hover:text-white transition-all group">
+              <i class="fas fa-user-friends text-2xl text-brandRed group-hover:text-white mb-2 block"></i>
+              <span class="font-bold text-xs uppercase tracking-wide">Amistad Real</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta Decorativa Urbano/Iglesia -->
+        <div class="md:col-span-5 reveal-right">
+          <div class="bg-gray-900 text-white p-8 rounded-2xl urban-border relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 opacity-10 text-white">
+              <i class="fas fa-church text-9xl"></i>
+            </div>
+            <i class="fas fa-quote-left text-brandRed text-4xl mb-4 block"></i>
+            <p class="text-gray-300 italic text-lg leading-relaxed mb-6">
+              "No somos perfectos, pero tenemos algo claro: no queremos alejarnos de su presencia. Nos gusta reírnos, servir, orar, estar juntos… pero sobre todo, queremos darle gloria a Dios con nuestras vidas."
+            </p>
+            <div class="font-urban text-brandOrange text-xl">
+              — Los Samuelitos
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- SECCIÓN ANIMADA DE ICONOS URBANOS/BIBLIAS/FUEGO AL BAJAR -->
+  <section class="py-16 bg-gray-900 text-white overflow-hidden relative">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-12 reveal">
+        <span class="text-brandOrange font-bold text-sm tracking-widest uppercase">Lo que nos mueve</span>
+        <h3 class="font-urban text-3xl md:text-4xl text-white mt-1">CULTURA & ESPÍRITU</h3>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        
+        <!-- Card 1: Fuego -->
+        <div class="reveal p-6 bg-mediumGray rounded-2xl border border-gray-800 text-center hover:border-brandRed transition-all duration-300 transform hover:-translate-y-2 group">
+          <div class="w-16 h-16 bg-brandRed/20 text-brandRed rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+            <i class="fas fa-fire text-3xl flame-effect"></i>
+          </div>
+          <h4 class="font-bold text-lg mb-2">Fuego Santo</h4>
+          <p class="text-gray-400 text-sm">Apasionados por la presencia de Dios en cada reunión.</p>
+        </div>
+
+        <!-- Card 2: Biblia -->
+        <div class="reveal p-6 bg-mediumGray rounded-2xl border border-gray-800 text-center hover:border-brandRed transition-all duration-300 transform hover:-translate-y-2 group">
+          <div class="w-16 h-16 bg-brandRed/20 text-brandOrange rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+            <i class="fas fa-book-bible text-3xl"></i>
+          </div>
+          <h4 class="font-bold text-lg mb-2">La Palabra</h4>
+          <p class="text-gray-400 text-sm">Buscando Su voz en cada detalle y en la Biblia.</p>
+        </div>
+
+        <!-- Card 3: Amistad Urbana -->
+        <div class="reveal p-6 bg-mediumGray rounded-2xl border border-gray-800 text-center hover:border-brandRed transition-all duration-300 transform hover:-translate-y-2 group">
+          <div class="w-16 h-16 bg-brandRed/20 text-brandRed rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+            <i class="fas fa-hands-holding-circle text-3xl"></i>
+          </div>
+          <h4 class="font-bold text-lg mb-2">Hermandad</h4>
+          <p class="text-gray-400 text-sm">Caminar juntos, reír, servir y apoyarnos como familia.</p>
+        </div>
+
+        <!-- Card 4: Estilo Urbano / Servicio -->
+        <div class="reveal p-6 bg-mediumGray rounded-2xl border border-gray-800 text-center hover:border-brandRed transition-all duration-300 transform hover:-translate-y-2 group">
+          <div class="w-16 h-16 bg-brandRed/20 text-brandOrange rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+            <i class="fas fa-bolt text-3xl"></i>
+          </div>
+          <h4 class="font-bold text-lg mb-2">Servicio Activo</h4>
+          <p class="text-gray-400 text-sm">En cada ensayo, en cada reunión, siempre listos.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECCIÓN: ¿POR QUÉ "LOS SAMUELITOS"? -->
+  <section id="porque-samuelitos" class="py-24 px-6 bg-gray-50 relative">
+    <div class="max-w-4xl mx-auto">
+      
+      <!-- Encabezado con Estilo Urbano -->
+      <div class="text-center mb-12 reveal">
+        <div class="inline-block bg-brandRed text-white font-urban text-lg px-6 py-2 rounded-full mb-4 shadow-lg transform -rotate-1">
+          Nuestra Historia & Llamado
+        </div>
+        <h2 class="font-urban text-4xl md:text-6xl text-gray-900">
+          ¿POR QUÉ “LOS SAMUELITOS”?
+        </h2>
+      </div>
+
+      <!-- Tarjeta Principal con el Texto Completo Solicitado -->
+      <div class="reveal bg-white p-8 md:p-12 rounded-3xl urban-border space-y-6 text-gray-800 text-lg leading-relaxed shadow-xl">
+        
+        <p class="text-xl md:text-2xl font-bold text-gray-900 border-b-2 border-gray-100 pb-4">
+          Nos llamamos <span class="text-brandRed font-urban text-2xl md:text-3xl">Los Samuelitos</span> porque, como Samuel, crecimos en la casa de Dios.
+        </p>
+
+        <p class="text-gray-700">
+          Mientras otros corrían afuera, nosotros nos quedamos —sirviendo, aprendiendo, y buscando Su voz en cada reunión, en cada ensayo, en cada detalle.
+        </p>
+
+        <!-- Bloque Destacado del Versículo / Frase Clave -->
+        <div class="my-8 bg-gray-900 text-white p-6 md:p-8 rounded-2xl relative overflow-hidden border-l-8 border-brandRed">
+          <div class="absolute right-4 top-4 text-brandRed opacity-20">
+            <i class="fas fa-comment-dots text-6xl"></i>
+          </div>
+          <p class="text-gray-300 text-sm font-semibold uppercase tracking-widest mb-2">Nuestra Respuesta:</p>
+          <p class="font-urban text-2xl md:text-3xl text-brandOrange tracking-wide leading-snug">
+            “Habla, Señor, que tu siervo escucha.”
+          </p>
+          <p class="text-sm text-gray-400 mt-3 italic">
+            Somos esa generación que ama estar en el templo, que no necesita que la llamen mil veces porque ya aprendió a responder.
+          </p>
+        </div>
+
+        <p class="text-gray-700">
+          No somos perfectos, pero tenemos algo claro: <strong>no queremos alejarnos de su presencia</strong>. Nos gusta reírnos, servir, orar, estar juntos… pero sobre todo, queremos darle gloria a Dios con nuestras vidas.
+        </p>
+
+        <!-- Cierre Impactante -->
+        <div class="bg-gray-100 p-6 rounded-2xl border-2 border-dashed border-brandRed mt-6">
+          <p class="font-bold text-gray-900 text-xl mb-2 font-urban text-brandRed">
+            Por eso nos llamamos así:
+          </p>
+          <p class="text-gray-800 font-medium">
+            Porque cuando otros dormían, Samuel escuchó. <br>
+            Y nosotros también queremos ser los que escuchan, permanecen y responden al llamado.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- FOOTER LIMPIO CON SOLO INSTAGRAM @samuelitos.mdr -->
+  <footer class="bg-gray-900 text-white py-12 border-t-4 border-brandRed">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      
+      <h3 class="font-urban text-3xl text-white mb-2">LOS SAMUELITOS</h3>
+      <p class="text-gray-400 text-sm mb-6">Ministerio de Restauración • Generación de Fe</p>
+
+      <!-- ÚNICA RED SOCIAL: INSTAGRAM -->
+      <div class="flex justify-center mb-8">
+        <a 
+          href="https://www.instagram.com/samuelitos.mdr" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="inline-flex items-center gap-3 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:opacity-90 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105"
+        >
+          <i class="fab fa-instagram text-2xl"></i>
+          <span class="text-lg">@samuelitos.mdr</span>
+        </a>
+      </div>
+
+      <div class="border-t border-gray-800 pt-6 text-xs text-gray-500">
+        <p>&copy; 2026 Los Samuelitos - Ministerio de Restauración. Todos los derechos reservados.</p>
+        <p class="mt-1 font-urban text-brandOrange">"Habla, Señor, que tu siervo escucha."</p>
+      </div>
+
+    </div>
+  </footer>
+
+
+  <!-- JAVASCRIPT FOR SCROLL ANIMATIONS AND FLOATING PARTICLES -->
+  <script>
+    // 1. Scroll Reveal Animation Script
+    function revealOnScroll() {
+      const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+      const windowHeight = window.innerHeight;
+
+      reveals.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 100;
+
+        if (elementTop < windowHeight - elementVisible) {
+          element.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+
+    // 2. Dynamic Floating Animated Particles (Fire, Bible & Stars Icons)
+    function createParticles() {
+      const container = document.getElementById('particles-container');
+      const particleTypes = ['fa-fire', 'fa-book-bible', 'fa-cross', 'fa-star'];
+      const colors = ['#E82B1E', '#FF6B35', '#2A2A2A'];
+
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('i');
+        const randomIcon = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        particle.className = `fas ${randomIcon} particle`;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.fontSize = `${Math.random() * 20 + 12}px`;
+        particle.style.color = randomColor;
+        particle.style.animationDuration = `${Math.random() * 6 + 6}s`;
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+
+        container.appendChild(particle);
+      }
+    }
+
+    createParticles();
+  </script>
+</body>
+</html>
